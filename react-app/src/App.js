@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from './Table';
 import Form from './Form';
+import API from './API';
 
 class App extends React.Component {
     state = {
@@ -26,6 +27,7 @@ class App extends React.Component {
             <div className="container">
                 <Table characters={this.state.characters} deleteRow={this.deleteRow} />
                 <Form handleSubmit={this.handleSubmit} />
+                <API />
             </div>
         )
     }
