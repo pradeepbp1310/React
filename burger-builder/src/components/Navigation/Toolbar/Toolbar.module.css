@@ -12,3 +12,12 @@
     padding: 0 20px;
     align-items: center
 }
+.Logo{
+    height: 80%;
+}
+
+@media (max-width: 499px) {
+    .Toolbar nav {
+       display: none
+    }
+}

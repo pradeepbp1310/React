@@ -4,6 +4,6 @@
     top: 0;
     left: 0;
     position: fixed;
-    z-index: 100;
+    z-index: 800;
     background: rgba(0, 0, 0, 0.5)
 }
