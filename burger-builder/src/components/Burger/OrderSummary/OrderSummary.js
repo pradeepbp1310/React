@@ -5,9 +5,9 @@ import Button from '../../UI/Button/Button';
 class OrderSummary extends Component {
     // Order summary page renders each time when any of the parent page renders
     // to avoid this implement componentshouldupdate lifecycle in parent wrapped class
-    componentWillUpdate() {
-        console.log('OrderSummary component');
-    }
+    // componentWillUpdate() {
+    //     console.log('OrderSummary component');
+    // }
 
     render() {
         const ingredientList = Object.keys(this.props.ingredient).map(igKey => {
@@ -22,7 +22,7 @@ class OrderSummary extends Component {
                 </ul>
                 <p><strong>Total price: {this.props.totalprice}</strong></p>
                 <Button btnType={'Danger'} clicked={this.props.closemodal}>Cancel</Button>
-                <Button btnType={'Success'} clicked={this.props.closemodal}>Continue</Button>
+                <Button btnType={'Success'} clicked={this.props.continue}>Continue</Button>
             </Aux>
         )
     }

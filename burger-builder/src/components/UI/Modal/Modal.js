@@ -4,9 +4,9 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
-// Only update when there is a change in the props
-    shouldComponentUpdate(nextProps){
-        return nextProps.show !== this.props.show;
+    // Only update when there is a change in the props
+    shouldComponentUpdate(nextProps) {
+        return (nextProps.show !== this.props.show) || (nextProps.children !== this.props.children);
     }
 
     render() {

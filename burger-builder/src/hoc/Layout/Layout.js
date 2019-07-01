@@ -25,7 +25,6 @@ class Layout extends Component {
                 <Toolbar toggle={this.toggleSideDrawer} />
                 <SideDrawer show={this.state.showDrawer} />
                 <main className={styles.Content}>{this.props.children}</main>
-
             </Aux>
         )
     }
