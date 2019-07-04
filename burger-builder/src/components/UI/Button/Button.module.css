@@ -6,9 +6,9 @@
     cursor: pointer;
     font: inherit;
     padding: 10px;
-    margin: 10px;
+    margin: 10px auto;
     font-weight: bold;
-    float: left;
+    width: 100%;
 }
 
 .Button:first-of-type {

@@ -1,0 +1,22 @@
+.Input{
+    display: block;
+    margin: 10px auto;
+
+}
+
+.Label{
+    font-weight: bold;
+    display: block;
+}
+
+.InputElement{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius:  5px;
+    width: 97%;
+    display: block;
+}
+
+.InputElement:focus{
+    background: #ccc;
+}

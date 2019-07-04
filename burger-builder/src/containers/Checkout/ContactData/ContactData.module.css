@@ -5,17 +5,3 @@
     margin: 10px auto;
     padding: 20px;
 }
-.ContactData form > div{
-    margin: 10px 0
-}
-.ContactData label{
-    padding: 10px;
-    width: 200px;
-    display: inline-block
-}
-
-.ContactData input{
-    padding: 10px;
-    width: 97%;
-    padding: 10px;
-}

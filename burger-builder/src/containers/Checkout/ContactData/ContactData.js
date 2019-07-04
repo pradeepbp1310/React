@@ -1,17 +1,83 @@
 import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
-import classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+import classes from './ContactData.module.css';
 
 class ContactData extends Component {
 
     state = {
-        showSpinner: false
+        showSpinner: false,
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'Name'
+                },
+                value: '',
+            },
+            address: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'Address'
+                },
+                value: '',
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'Street'
+                },
+                value: '',
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'Zip'
+                },
+                value: '',
+            },
+            city: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'City'
+                },
+                value: '',
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'input',
+                    placeholder: 'Email'
+                },
+                value: '',
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    type: 'select',
+                    placeholder: 'Delivery Method',
+                    options: [
+                        { value: 'fastest', displayValue: 'Fastest' },
+                        { value: 'cheapest', displayValue: 'Cheapest' }
+                    ]
+
+                },
+                value: '',
+            },
+        }
     }
+
     orderHandler = () => {
         this.setState({
             showSpinner: true,
+
         })
         const data = {
             ingredients: this.props.ingredients,
@@ -46,34 +112,54 @@ class ContactData extends Component {
         )
     }
 
+    inputChangeHandler(event, inputIdentifier) {
+        let updatedForm = {
+            ...this.state.orderForm
+        }
+        const updatedElem = {
+            ...updatedForm[inputIdentifier]
+        }
+        updatedElem.value = event.target.value;
+        updatedForm[inputIdentifier] = updatedElem;
+        this.setState({
+            orderForm: updatedForm
+        })
+    }
     render() {
+        let inputElement = [];
+        for (let inp in this.state.orderForm) {
+            inputElement.push(
+                {
+                    id: inp,
+                    elementType: this.state.orderForm[inp].elementType,
+                    elementConfig: this.state.orderForm[inp].elementConfig,
+                    value: this.state.orderForm[inp].value
+                }
+            )
+        }
+
         let elem = null;
+
         if (this.state.showSpinner) {
             elem = <Spinner />
         } else {
             elem = (
                 <React.Fragment>
-                    <div className={classes.ContactData}>
-                        <form>
-                            <div>
-                                <label>Name:</label>
-                                <input type='text' />
-                            </div>
-                            <div>
-                                <label>Address:</label>
-                                <input type='text' />
-                            </div>
-                            <div>
-                                <label>Email:</label>
-                                <input type='text' />
-                            </div>
-                            <div>
-                                <label>Phone:</label>
-                                <input type='text' />
-                            </div>
-                        </form>
+                    <form className={classes.ContactData}>
+                        {
+                            inputElement.map(inp => {
+                                return <Input
+                                    elementType={inp.elementType}
+                                    value={inp.value}
+                                    elementConfig={inp.elementConfig}
+                                    key={inp.id}
+                                    changed={(event) => { this.inputChangeHandler(event, inp.id) }}
+                                />
+                            })
+                        }
+
                         <Button btnType='Success' clicked={this.orderHandler}>ORDER</Button>
-                    </div>
+                    </form>
                 </React.Fragment>
             )
         }
