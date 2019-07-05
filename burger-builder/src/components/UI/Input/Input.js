@@ -2,19 +2,25 @@ import React from 'react';
 import classes from './Input.module.css';
 
 const input = (props) => {
+    console.log(props)
     let inputElement = null;
+    const validClass = [classes.InputElement];
+    let validationError = null;
+    if (props.valid && props.shouldValidate && props.touched) {
+        validClass.push(classes.Invalid);
+        validationError = <p className={classes.ValidationError}>Please enter a valid {props.valueType}</p>;
+    }
 
     switch (props.elementType) {
         case ('input'):
-            inputElement = <input className={classes.InputElement} {...props.elementConfig} value={props.value} onChange={props.changed} />;
+            inputElement = <input className={validClass.join(' ')} {...props.elementConfig} value={props.value} onChange={props.changed} />;
             break;
         case ('textarea'):
-            inputElement = <textarea className={classes.InputElement} {...props.elementConfig} value={props.value} onChange={props.changed} />;
+            inputElement = <textarea className={validClass.join(' ')} {...props.elementConfig} value={props.value} onChange={props.changed} />;
             break;
         case ('select'):
-            console.log(props);
             inputElement = (
-                <select className={classes.InputElement} {...props.elementConfig} onChange={props.changed} value={props.value}>
+                <select className={validClass.join(' ')} {...props.elementConfig} onChange={props.changed} value={props.value}>
                     <option value="" key='default' >Select Method</option>
                     {
                         props.elementConfig.options.map(o => {
@@ -26,7 +32,7 @@ const input = (props) => {
             );
             break;
         default:
-            inputElement = <input className={classes.InputElement} {...props.elementConfig} value={props.value} />;
+            inputElement = <input className={validClass.join(' ')} {...props.elementConfig} value={props.value} />;
             return inputElement;
     }
 
@@ -35,6 +41,7 @@ const input = (props) => {
         <div className={classes.Input}>
             {/* <label className={classes.Label}>{props.label}: </label> */}
             {inputElement}
+            {validationError}
         </div>
     )
 }

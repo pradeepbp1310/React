@@ -5,7 +5,6 @@ import Button from '../../UI/Button/Button';
 
 
 const checkoutSummary = (props) => {
-    console.log(props);
     return (
         <div className={classes.CheckoutSummary}>
             <div style={{ textAlign: 'center', width: '100%' }}>

@@ -17,6 +17,11 @@ class ContactData extends Component {
                     placeholder: 'Name'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
             address: {
                 elementType: 'input',
@@ -25,6 +30,11 @@ class ContactData extends Component {
                     placeholder: 'Address'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -33,6 +43,11 @@ class ContactData extends Component {
                     placeholder: 'Street'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
             zipCode: {
                 elementType: 'input',
@@ -41,6 +56,11 @@ class ContactData extends Component {
                     placeholder: 'Zip'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
             city: {
                 elementType: 'input',
@@ -49,6 +69,11 @@ class ContactData extends Component {
                     placeholder: 'City'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -57,6 +82,13 @@ class ContactData extends Component {
                     placeholder: 'Email'
                 },
                 value: '',
+                validations: {
+                    required: true,
+                    minLength: 3,
+                    maxLength: 6
+                },
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -70,8 +102,27 @@ class ContactData extends Component {
 
                 },
                 value: '',
+                validations: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
             },
         }
+    }
+
+    checkValidity(value, validationRules) {
+        let isValid = true;
+        if (validationRules.required) {
+            isValid = (value.trim() !== '') && isValid;
+        }
+        if (validationRules.minLength) {
+            isValid = (value.length >= validationRules.minLength) && isValid;
+        }
+        if (validationRules.maxLength) {
+            isValid = (value.length <= validationRules.maxLength) && isValid;
+        }
+        return isValid;
     }
 
     orderHandler = (event) => {
@@ -85,7 +136,7 @@ class ContactData extends Component {
             showSpinner: true,
 
         })
-  
+
         const data = {
             ingredients: this.props.ingredients,
             price: this.props.price,
@@ -118,29 +169,33 @@ class ContactData extends Component {
         }
         updatedElem.value = event.target.value;
         updatedForm[inputIdentifier] = updatedElem;
-        console.log(updatedForm)
+        updatedForm[inputIdentifier].valid = this.checkValidity(updatedElem.value, updatedForm[inputIdentifier].validations);
+        updatedForm[inputIdentifier].touched = true;
         this.setState({
             orderForm: updatedForm
         })
     }
     render() {
-        let inputElement = [];
-        for (let inp in this.state.orderForm) {
-            inputElement.push(
-                {
-                    id: inp,
-                    elementType: this.state.orderForm[inp].elementType,
-                    elementConfig: this.state.orderForm[inp].elementConfig,
-                    value: this.state.orderForm[inp].value
-                }
-            )
-        }
-
         let elem = null;
-
         if (this.state.showSpinner) {
             elem = <Spinner />
         } else {
+            let inputElement = [];
+            for (let inp in this.state.orderForm) {
+                inputElement.push(
+                    {
+                        id: inp,
+                        elementType: this.state.orderForm[inp].elementType,
+                        elementConfig: this.state.orderForm[inp].elementConfig,
+                        value: this.state.orderForm[inp].value,
+                        valid: this.state.orderForm[inp].valid,
+                        shouldValidate: this.state.orderForm[inp].validations,
+                        touched: this.state.orderForm[inp].touched
+                    }
+                )
+            }
+            let isDisabled = inputElement.every(i => i.valid);
+            console.log(isDisabled)
             elem = (
                 <React.Fragment>
                     <form className={classes.ContactData} onSubmit={this.orderHandler}>
@@ -152,11 +207,15 @@ class ContactData extends Component {
                                     elementConfig={inp.elementConfig}
                                     key={inp.id}
                                     changed={(event) => { this.inputChangeHandler(event, inp.id) }}
+                                    valid={!inp.valid}
+                                    shouldValidate={inp.shouldValidate}
+                                    touched={inp.touched}
+                                    valueType={inp.id}
                                 />
                             })
                         }
 
-                        <Button btnType='Success'>ORDER</Button>
+                        <Button btnType='Success' disabled={!isDisabled}>ORDER</Button>
                     </form>
                 </React.Fragment>
             )
