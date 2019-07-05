@@ -15,9 +15,10 @@ const input = (props) => {
             console.log(props);
             inputElement = (
                 <select className={classes.InputElement} {...props.elementConfig} onChange={props.changed} value={props.value}>
+                    <option value="" key='default' >Select Method</option>
                     {
                         props.elementConfig.options.map(o => {
-                            return <option value={o.value} key={o.value}>{o.displayValue}</option>
+                            return <option value={o.value} key={o.value} >{o.displayValue}</option>
                         })
 
                     }
