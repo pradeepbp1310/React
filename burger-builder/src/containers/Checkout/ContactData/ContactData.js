@@ -4,6 +4,7 @@ import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import classes from './ContactData.module.css';
+import { connect } from 'react-redux';
 
 class ContactData extends Component {
 
@@ -144,11 +145,9 @@ class ContactData extends Component {
         }
 
         axios.post('/orders.json', data).then(res => {
-            console.log(res);
             this.setState({
                 showSpinner: false,
             })
-            console.log(this.props)
             this.props.history.replace('/');
         },
             err => {
@@ -225,4 +224,11 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients.ingredients,
+        price: state.ingredients.price
+    }
+}
+
+export default connect(mapStateToProps)(ContactData);

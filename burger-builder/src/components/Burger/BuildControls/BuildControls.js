@@ -10,6 +10,7 @@ const controls = [
 ];
 
 const buildControls = (props) => {
+    console.log(props)
     return (
         <div className={classes.BuildControls}>
             <p>Total Price: <strong>{props.price}</strong> INR</p>
