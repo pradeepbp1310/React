@@ -5,11 +5,12 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import classes from './ContactData.module.css';
 import { connect } from 'react-redux';
+import { burgerPurchase } from '../../../store/actions/order';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 class ContactData extends Component {
 
     state = {
-        showSpinner: false,
         orderForm: {
             name: {
                 elementType: 'input',
@@ -133,30 +134,12 @@ class ContactData extends Component {
             formData[formEle] = this.state.orderForm[formEle].value;
         }
 
-        this.setState({
-            showSpinner: true,
-
-        })
-
         const data = {
             ingredients: this.props.ingredients,
             price: this.props.price,
             orders: formData
         }
-
-        axios.post('/orders.json', data).then(res => {
-            this.setState({
-                showSpinner: false,
-            })
-            this.props.history.replace('/');
-        },
-            err => {
-                console.log(err);
-                this.setState({
-                    showSpinner: false,
-                })
-            }
-        )
+        this.props.onBurgerPurchase(data);
     }
 
     inputChangeHandler(event, inputIdentifier) {
@@ -174,9 +157,11 @@ class ContactData extends Component {
             orderForm: updatedForm
         })
     }
+
     render() {
+        console.log(this.props)
         let elem = null;
-        if (this.state.showSpinner) {
+        if (this.props.loading) {
             elem = <Spinner />
         } else {
             let inputElement = [];
@@ -194,7 +179,6 @@ class ContactData extends Component {
                 )
             }
             let isDisabled = inputElement.every(i => i.valid);
-            console.log(isDisabled)
             elem = (
                 <React.Fragment>
                     <form className={classes.ContactData} onSubmit={this.orderHandler}>
@@ -220,15 +204,22 @@ class ContactData extends Component {
             )
         }
         return elem;
-
     }
 }
 
 const mapStateToProps = state => {
     return {
         ingredients: state.ingredients.ingredients,
-        price: state.ingredients.price
+        price: state.ingredients.price,
+        loading: state.order.loading,
+        order: state.order.orders
     }
 }
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onBurgerPurchase: (data) => dispatch(burgerPurchase(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
