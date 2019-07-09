@@ -8,7 +8,7 @@ import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/action';
+import { addIngredient, deleteIngredient, setIngredient } from '../../store/actions/burgerBuilder';
 
 const INGREDIENT_PRICES = {
     salad: 20,
@@ -31,14 +31,7 @@ class BurgerBuilder extends Component {
     // }
 
     componentDidMount() {
-        axios.get('/ingredients.json').then(res => {
-            const ing = { ...res.data }
-            this.props.onLoad(ing);
-        }).catch(error => {
-            this.setState({
-                error: true
-            })
-        })
+        this.props.setIngredient();
     }
 
     updatePurchaseState(ingredients) {
@@ -76,7 +69,7 @@ class BurgerBuilder extends Component {
             disableInfo[key] = disableInfo[key] <= 0;
         }
 
-        let burger = this.state.error ? <p style={{ textAlign: 'center' }}>Ingredients can not be loaded right now'</p> : <Spinner />;
+        let burger = this.props.error ? <p style={{ textAlign: 'center' }}>Ingredients can not be loaded right now'</p> : <Spinner />;
         let orders = null;
 
         if (this.props.ingredients) {
@@ -115,27 +108,22 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ingredients: state.ingredients.ingredients,
-        price: state.ingredients.price
+        price: state.ingredients.price,
+        error: state.ingredients.error
     }
 }
 
 const mapDisptachToProps = dispatch => {
     return {
-        addIngredientHandler: (ingType) => dispatch({
-            type: actionTypes.ADD_INGREDIENT,
-            payload: {
-                ingredientType: ingType,
-                newPrice: INGREDIENT_PRICES[ingType]
-            }
-        }),
-        removeIngredientHandler: (ingType) => dispatch({
-            type: actionTypes.DELETE_INGREDIENT,
-            payload: {
-                ingredientType: ingType,
-                newPrice: INGREDIENT_PRICES[ingType]
-            }
-        }),
-        onLoad: (ing) => dispatch({ type: actionTypes.ONLOAD, value: ing })
+        addIngredientHandler: (ingType) => dispatch(addIngredient({
+            ingredientType: ingType,
+            newPrice: INGREDIENT_PRICES[ingType]
+        })),
+        removeIngredientHandler: (ingType) => dispatch(deleteIngredient({
+            ingredientType: ingType,
+            newPrice: INGREDIENT_PRICES[ingType]
+        })),
+        setIngredient: () => dispatch(setIngredient())
     }
 }
 

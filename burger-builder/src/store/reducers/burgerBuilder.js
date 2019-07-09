@@ -1,18 +1,23 @@
-import * as actionTypes from '../actions/action';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     ingredients: null,
-    price: 100
+    price: 100,
+    error: false
 }
 
-const ingredients = (state = initialState, action) => {
-    console.log(action, state);
+const burgerBuilder = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ONLOAD:
+        case actionTypes.INIT_INGREDIENT:
             return {
                 ...state,
-                ingredients: action.value,
-                price: 100
+                ingredients: action.payload,
+                error: false
+            }
+        case actionTypes.FETCH_INGREDIENT_FAILED:
+            return {
+                ...state,
+                error: true
             }
         case actionTypes.ADD_INGREDIENT:
             const oldCount = state.ingredients[action.payload.ingredientType];
@@ -44,4 +49,4 @@ const ingredients = (state = initialState, action) => {
 
 }
 
-export default ingredients;
+export default burgerBuilder;
