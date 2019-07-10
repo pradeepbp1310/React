@@ -9,6 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import { addIngredient, deleteIngredient, setIngredient } from '../../store/actions/burgerBuilder';
+import { purchaseOnInit } from '../../store/actions/order';
 
 const INGREDIENT_PRICES = {
     salad: 20,
@@ -29,7 +30,6 @@ class BurgerBuilder extends Component {
     //         this.updatePurchaseState(this.props.ingredients);
     //     }
     // }
-
     componentDidMount() {
         this.props.setIngredient();
     }
@@ -58,6 +58,7 @@ class BurgerBuilder extends Component {
     }
 
     continuePurchase = () => {
+        this.props.purchaseOnInit();
         this.props.history.push('/checkout');
     }
 
@@ -73,6 +74,7 @@ class BurgerBuilder extends Component {
         let orders = null;
 
         if (this.props.ingredients) {
+
             orders = <OrderSummary
                 ingredient={this.props.ingredients}
                 continue={this.continuePurchase}
@@ -109,7 +111,8 @@ const mapStateToProps = state => {
     return {
         ingredients: state.ingredients.ingredients,
         price: state.ingredients.price,
-        error: state.ingredients.error
+        error: state.ingredients.error,
+        purchased: state.order.purchased
     }
 }
 
@@ -123,7 +126,8 @@ const mapDisptachToProps = dispatch => {
             ingredientType: ingType,
             newPrice: INGREDIENT_PRICES[ingType]
         })),
-        setIngredient: () => dispatch(setIngredient())
+        setIngredient: () => dispatch(setIngredient()),
+        purchaseOnInit: () => dispatch(purchaseOnInit()),
     }
 }
 

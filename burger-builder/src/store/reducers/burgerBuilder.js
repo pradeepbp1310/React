@@ -17,6 +17,7 @@ const burgerBuilder = (state = initialState, action) => {
                     cheese: action.payload.cheese,
                     bacon: action.payload.bacon
                 },
+                price: 100,
                 error: false
             }
         case actionTypes.FETCH_INGREDIENT_FAILED:
