@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import updateObject from '../utility';
 
 const initialValue = {
     orders: [],
@@ -7,14 +8,9 @@ const initialValue = {
 }
 
 const orders = (state = initialValue, action) => {
-    console.log(action)
     switch (action.type) {
         case actionTypes.BURGER_PURCHASE_START:
-            return {
-                ...state,
-                loading: true,
-                purchased: false
-            }
+            return updateObject(state, { loading: true, purchased: false })
         case actionTypes.BURGER_PURCHASE_SUCCESS:
             const newOrder = { ...state.orders };
             return {
@@ -26,31 +22,15 @@ const orders = (state = initialValue, action) => {
             }
 
         case actionTypes.BURGER_PURCHASE_FAIL:
-            return {
-                ...state,
-                loading: true,
-            }
+            return updateObject(state, { loading: true })
         case actionTypes.BURGER_PURCHASE_ONINIT:
-            return {
-                ...state,
-                purchased: false
-            }
+            return updateObject(state, { loading: false })
         case actionTypes.FETCH_ORDERS_START:
-            return {
-                ...state,
-                loading: true
-            }
+            return updateObject(state, { loading: true })
         case actionTypes.FETCH_ORDERS_SUCCESS:
-            return {
-                ...state,
-                orders: action.orders,
-                loading: false
-            }
+            return updateObject(state, { loading: false, orders: action.orders })
         case actionTypes.FETCH_ORDERS_FAIL:
-            return {
-                ...state,
-                loading: false
-            }
+            return updateObject(state, { loading: false })
         default:
             return state
     }
