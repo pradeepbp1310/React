@@ -1,0 +1,10 @@
+.Auth{
+    display: block;
+    border: 1px solid #eeeeee;
+    width:30%;
+    margin: 50px auto;
+    padding: 20px;
+    top: 120px;
+    position: relative;
+}
+.Auth input{ width: 94%; margin:20px 0}

@@ -28,6 +28,7 @@ const deleteIngredient = (state, action) => {
 }
 
 const initIngredient = (state, action) => {
+    console.log(state)
     return {
         ...state,
         ingredients: {
@@ -46,10 +47,11 @@ const fetchIngredient = (state) => {
 }
 
 const burgerBuilder = (state = initialState, action) => {
+
     switch (action.type) {
-        case actionTypes.INIT_INGREDIENT: return initIngredient;
-        case actionTypes.FETCH_INGREDIENT_FAILED: return fetchIngredient;
-        case actionTypes.ADD_INGREDIENT: return addIngredient(state);
+        case actionTypes.INIT_INGREDIENT: return initIngredient(state, action);
+        case actionTypes.FETCH_INGREDIENT_FAILED: return fetchIngredient(state, action);
+        case actionTypes.ADD_INGREDIENT: return addIngredient(state, action);
         case actionTypes.DELETE_INGREDIENT: return deleteIngredient(state, action);
         default: return state
     }

@@ -12,7 +12,7 @@ const orders = (state = initialValue, action) => {
         case actionTypes.BURGER_PURCHASE_START:
             return updateObject(state, { loading: true, purchased: false })
         case actionTypes.BURGER_PURCHASE_SUCCESS:
-            const newOrder = { ...state.orders };
+            const newOrder = [...state.orders];
             return {
                 ...state,
                 orders: newOrder.concat(action.orderData),
