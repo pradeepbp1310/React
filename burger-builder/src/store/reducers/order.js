@@ -15,9 +15,9 @@ const orders = (state = initialValue, action) => {
             const newOrder = [...state.orders];
             return {
                 ...state,
-                orders: newOrder.concat(action.orderData),
+                // orders: newOrder.concat(action.orderData),
                 loading: false,
-                id: action.id,
+                // id: action.id,
                 purchased: true
             }
 

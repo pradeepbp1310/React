@@ -14,7 +14,6 @@ import { Route, Switch } from 'react-router-dom';
 class App extends Component {
 
   componentDidMount() {
-    console.log('app load')
     this.props.checkAuth()
   }
 
