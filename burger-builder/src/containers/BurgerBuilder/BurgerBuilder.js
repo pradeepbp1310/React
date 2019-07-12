@@ -10,6 +10,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import { addIngredient, deleteIngredient, setIngredient } from '../../store/actions/burgerBuilder';
 import { purchaseOnInit } from '../../store/actions/order';
+import { setAuthRedirectPath } from '../../store/actions/auth';
 
 const INGREDIENT_PRICES = {
     salad: 20,
@@ -25,11 +26,6 @@ class BurgerBuilder extends Component {
         error: false
     }
 
-    // componentDidUpdate(prevState) {
-    //     if (prevState.ingredients !== this.props.ingredients) {
-    //         this.updatePurchaseState(this.props.ingredients);
-    //     }
-    // }
     componentDidMount() {
         this.props.setIngredient();
     }
@@ -52,6 +48,7 @@ class BurgerBuilder extends Component {
             })
         }
         else {
+            this.props.setAuthRedirectPath('/checkout');
             this.props.history.push('/auth')
         }
 
@@ -136,6 +133,7 @@ const mapDisptachToProps = dispatch => {
         })),
         setIngredient: () => dispatch(setIngredient()),
         purchaseOnInit: () => dispatch(purchaseOnInit()),
+        setAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path))
     }
 }
 

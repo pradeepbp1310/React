@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { auth } from '../../store/actions/auth';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import { setAuthRedirectPath } from '../../store/actions/auth';
 
 class Auth extends Component {
     state = {
@@ -40,6 +41,13 @@ class Auth extends Component {
             }
         },
         isSignup: false
+    }
+
+    componentDidMount() {
+        console.log(this.props)
+        if (!this.props.burgerBuilder && this.props.authRedirectPath !== '/checkout') {
+            this.props.setAuthRedirectPath();
+        }
     }
 
     checkValidity(value, validationRules) {
@@ -109,7 +117,7 @@ class Auth extends Component {
 
         let authRedirect = null;
         if (this.props.isAuth) {
-            authRedirect = <Redirect to='/' />
+            authRedirect = <Redirect to={this.props.authRedirectPath} />
         }
         let element = (
             <div className={classes.Auth}>
@@ -150,13 +158,16 @@ const mapStateToProps = state => {
         userId: state.auth.userId,
         loading: state.auth.loading,
         error: state.auth.error,
-        isAuth: state.auth.token !== null
+        isAuth: state.auth.token !== null,
+        authRedirectPath: state.auth.authRedirectPath,
+        burgerBuilder: state.ingredients.building
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogin: (email, password, isSginup) => dispatch(auth(email, password, isSginup))
+        onLogin: (email, password, isSginup) => dispatch(auth(email, password, isSginup)),
+        setAuthRedirectPath: () => dispatch(setAuthRedirectPath('/'))
     }
 }
 
