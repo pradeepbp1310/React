@@ -17,7 +17,7 @@ const getExpirationTime = (expiresIn) => {
     return dispatch => {
         setTimeout(() => {
             dispatch(authLogout())
-        }, expiresIn)
+        }, expiresIn * 1000)
     }
 }
 
