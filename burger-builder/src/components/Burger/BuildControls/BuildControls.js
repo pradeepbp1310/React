@@ -10,7 +10,6 @@ const controls = [
 ];
 
 const buildControls = (props) => {
-    console.log(props)
     return (
         <div className={classes.BuildControls}>
             <p>Total Price: <strong>{props.price}</strong> INR</p>
@@ -25,7 +24,7 @@ const buildControls = (props) => {
                     )
                 )
             }
-            <button className={classes.OrderButton} disabled={!props.purchaseable} onClick={props.order}>ORDER NOW</button>
+            <button className={classes.OrderButton} disabled={!props.purchaseable} onClick={props.order}> {props.isAuth ? 'ORDER NOW' : 'SIGNUP'}</button>
         </div>
     )
 }

@@ -26,7 +26,7 @@ export const burgerPurchase = (orderData, token) => {
     return (dispatch, getState) => {
         console.log(getState);
         dispatch(burgerPurchaseStart());
-        axios.post('/orders.json?auth' + token, orderData).then(res => {
+        axios.post('/orders.json?auth=' + token, orderData).then(res => {
             dispatch(burgerPurchaseSuccess(res.data.name, orderData))
         }, err => {
             dispatch(burgerPurchaseFail())
