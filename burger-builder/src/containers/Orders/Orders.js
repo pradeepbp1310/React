@@ -5,10 +5,12 @@ import axios from '../../axios-orders';
 import { fetchOrders } from '../../store/actions/order';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { withRouter } from 'react-router-dom';
 
 class Orders extends Component {
 
     componentDidMount() {
+        console.log(this.props.token)
         this.props.fetchOrdersInit(this.props.token)
     }
 
@@ -40,4 +42,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios)));

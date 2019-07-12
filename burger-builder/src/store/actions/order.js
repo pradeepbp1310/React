@@ -60,9 +60,8 @@ export const fetchOrdersFail = () => {
 }
 
 export const fetchOrders = (token) => {
-    return (dispatch, getState) => {
-        console.log(getState());
-        console.log(token);
+    console.log(token);
+    return dispatch => {
         dispatch(fetchOrdersStart());
         axios.get('/orders.json?auth=' + token).then(res => {
             console.log(res.data)
