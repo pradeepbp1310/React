@@ -4,17 +4,18 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import classes from './SideDrawer.module.css';
 
 const sideDrawer = (props) => {
+
     let classesAdded = [classes.SideDrawer, classes.Open];
     if (!props.show) {
         classesAdded = [classes.SideDrawer, classes.Close]
     }
     return (
-        <div className={classesAdded.join(' ')}>
+        <div className={classesAdded.join(' ')} onClick={props.clicked}>
             <div className={classes.Logo}>
                 <Logo />
             </div>
             <nav>
-                <NavigationItems isAuthenticated={props.isAuth}/>
+                <NavigationItems isAuthenticated={props.isAuth} />
             </nav>
         </div>
     )

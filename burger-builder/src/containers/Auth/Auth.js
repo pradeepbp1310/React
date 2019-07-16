@@ -7,6 +7,7 @@ import { auth } from '../../store/actions/auth';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
 import { setAuthRedirectPath } from '../../store/actions/auth';
+import { updateObject, checkValidity } from '../../shared/utility';
 
 class Auth extends Component {
     state = {
@@ -44,40 +45,22 @@ class Auth extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         if (!this.props.burgerBuilder && this.props.authRedirectPath !== '/checkout') {
             this.props.setAuthRedirectPath();
         }
     }
 
-    checkValidity(value, validationRules) {
-        let isValid = true;
-        if (validationRules.required) {
-            isValid = (value.trim() !== '') && isValid;
-        }
-        if (validationRules.minLength) {
-            isValid = (value.length >= validationRules.minLength) && isValid;
-        }
-        if (validationRules.maxLength) {
-            isValid = (value.length <= validationRules.maxLength) && isValid;
-        }
-        if (validationRules.email) {
-            const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            isValid = pattern.test(String(value).toLowerCase()) && isValid;
-        }
-        return isValid;
-    }
 
     inputChangeHandler(event, controlName) {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[controlName].validations),
-                touched: true
-            }
-        }
+        const updatedControls = updateObject(this.state.controls,
+            {
+                [controlName]:
+                    updateObject(this.state.controls[controlName], {
+                        value: event.target.value,
+                        valid: checkValidity(event.target.value, this.state.controls[controlName].validations),
+                        touched: true
+                    })
+            })
         this.setState({
             controls: updatedControls
         })

@@ -7,6 +7,7 @@ import classes from './ContactData.module.css';
 import { connect } from 'react-redux';
 import { burgerPurchase } from '../../../store/actions/order';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
 
@@ -113,20 +114,6 @@ class ContactData extends Component {
         }
     }
 
-    checkValidity(value, validationRules) {
-        let isValid = true;
-        if (validationRules.required) {
-            isValid = (value.trim() !== '') && isValid;
-        }
-        if (validationRules.minLength) {
-            isValid = (value.length >= validationRules.minLength) && isValid;
-        }
-        if (validationRules.maxLength) {
-            isValid = (value.length <= validationRules.maxLength) && isValid;
-        }
-        return isValid;
-    }
-
     orderHandler = (event) => {
         event.preventDefault();
         const formData = {};
@@ -144,23 +131,22 @@ class ContactData extends Component {
     }
 
     inputChangeHandler(event, inputIdentifier) {
-        let updatedForm = {
-            ...this.state.orderForm
-        }
-        const updatedElem = {
-            ...updatedForm[inputIdentifier]
-        }
-        updatedElem.value = event.target.value;
-        updatedForm[inputIdentifier] = updatedElem;
-        updatedForm[inputIdentifier].valid = this.checkValidity(updatedElem.value, updatedForm[inputIdentifier].validations);
-        updatedForm[inputIdentifier].touched = true;
+
+        const updatedElem = updateObject(this.state.orderForm[inputIdentifier], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validations),
+            touched: true
+        })
+        const updatedForm = updateObject(this.state.orderForm, {
+            [inputIdentifier]: updatedElem
+        })
+
         this.setState({
             orderForm: updatedForm
         })
     }
 
     render() {
-        console.log(this.props)
         let elem = null;
         if (this.props.loading) {
             elem = <Spinner />

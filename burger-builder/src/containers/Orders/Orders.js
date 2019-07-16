@@ -14,7 +14,6 @@ class Orders extends Component {
     }
 
     render() {
-        console.log(this.props)
         let load = this.props.loading ? <Spinner /> : (
             <div>
                 {

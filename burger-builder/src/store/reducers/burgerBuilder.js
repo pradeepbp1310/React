@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import updateObject from '../utility';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
     ingredients: null,
@@ -31,7 +31,6 @@ const deleteIngredient = (state, action) => {
 }
 
 const initIngredient = (state, action) => {
-    console.log(state)
     return {
         ...state,
         ingredients: {

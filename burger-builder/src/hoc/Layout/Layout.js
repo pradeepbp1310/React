@@ -24,7 +24,7 @@ class Layout extends Component {
             <Aux>
                 <Backdrop show={this.state.showDrawer} clicked={this.toggleSideDrawer} />
                 <Toolbar toggle={this.toggleSideDrawer} isAuth={this.props.isAuth} />
-                <SideDrawer show={this.state.showDrawer} isAuth={this.props.isAuth} />
+                <SideDrawer show={this.state.showDrawer} isAuth={this.props.isAuth} clicked={this.toggleSideDrawer}/>
                 <main className={styles.Content}>{this.props.children}</main>
             </Aux>
         )

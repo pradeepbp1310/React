@@ -17,7 +17,6 @@ export const authLogout = () => {
 }
 
 const checkAuthTimeOut = (expiresIn) => {
-    console.log(expiresIn)
     return dispatch => {
         setTimeout(() => {
             dispatch(authLogout())
@@ -52,7 +51,6 @@ export const auth = (email, password, isSginup) => {
         }
 
         let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDQ4ojNz6fqtS7rtqO5KpiLowxHoyikBfE';
-        console.log(isSginup)
         if (!isSginup) {
             url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDQ4ojNz6fqtS7rtqO5KpiLowxHoyikBfE'
         }
@@ -66,7 +64,6 @@ export const auth = (email, password, isSginup) => {
             dispatch(checkAuthTimeOut(response.data.expiresIn))
         })
             .catch(err => {
-                console.log(err)
                 dispatch(authFail(err.response.data.error));
             })
     }
@@ -92,7 +89,6 @@ export const authCheckState = () => {
         else {
             const userId = localStorage.getItem('userId');
             dispatch(authSuccess(token, userId));
-            console.log((expirationDate.getTime() - new Date().getTime()) / 1000);
             dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000))
         }
     }
