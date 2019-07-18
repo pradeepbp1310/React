@@ -6,10 +6,10 @@ export function* burgerPurchaseSaga(action) {
     yield put(burgerPurchaseStart());
     try {
         yield axios.post('/orders.json?auth=' + action.token, action.orderData);
-        yield put(burgerPurchaseSuccess())
+        yield put(burgerPurchaseSuccess());
     }
     catch (error) {
-        put(burgerPurchaseFail())
+        put(burgerPurchaseFail());
     }
 }
 
