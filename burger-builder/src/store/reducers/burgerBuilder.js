@@ -30,7 +30,7 @@ const deleteIngredient = (state, action) => {
     return updateObject(state, updateS)
 }
 
-const initIngredient = (state, action) => {
+const setIngredient = (state, action) => {
     return {
         ...state,
         ingredients: {
@@ -52,7 +52,7 @@ const fetchIngredient = (state) => {
 const burgerBuilder = (state = initialState, action) => {
 
     switch (action.type) {
-        case actionTypes.INIT_INGREDIENT: return initIngredient(state, action);
+        case actionTypes.SET_INGREDIENT: return setIngredient(state, action);
         case actionTypes.FETCH_INGREDIENT_FAILED: return fetchIngredient(state, action);
         case actionTypes.ADD_INGREDIENT: return addIngredient(state, action);
         case actionTypes.DELETE_INGREDIENT: return deleteIngredient(state, action);

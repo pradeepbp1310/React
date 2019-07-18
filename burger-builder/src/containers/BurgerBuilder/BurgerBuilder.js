@@ -8,7 +8,7 @@ import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
-import { addIngredient, deleteIngredient, setIngredient } from '../../store/actions/burgerBuilder';
+import { addIngredient, deleteIngredient, initIngredient } from '../../store/actions/burgerBuilder';
 import { purchaseOnInit } from '../../store/actions/order';
 import { setAuthRedirectPath } from '../../store/actions/auth';
 
@@ -130,7 +130,7 @@ const mapDisptachToProps = dispatch => {
             ingredientType: ingType,
             newPrice: INGREDIENT_PRICES[ingType]
         })),
-        setIngredient: () => dispatch(setIngredient()),
+        setIngredient: () => dispatch(initIngredient()),
         purchaseOnInit: () => dispatch(purchaseOnInit()),
         setAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path))
     }
