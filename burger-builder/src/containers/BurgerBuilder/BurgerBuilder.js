@@ -18,7 +18,7 @@ const INGREDIENT_PRICES = {
     meat: 50,
     bacon: 40
 }
-
+// HOOKS
 class BurgerBuilder extends Component {
     state = {
         purchasing: false,
