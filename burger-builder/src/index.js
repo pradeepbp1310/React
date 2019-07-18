@@ -13,8 +13,7 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-console.log(process.env.NODE_ENV);
+const composeEnhancers = process.env.NODE_ENV === ' development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
