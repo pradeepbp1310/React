@@ -81,6 +81,7 @@ class BurgerBuilder extends Component {
                 ingredient={this.props.ingredients}
                 continue={this.continuePurchase}
                 totalprice={this.props.price}
+                closemodal={this.closeModal}
             />
             burger = (<Aux>
                 <Burger ingredients={this.props.ingredients} />
